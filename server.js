@@ -31,8 +31,10 @@ connectToDb();
 // routes
 const skiJumperRoute = require('./routes/skiJumper');
 const teamRoute = require('./routes/Team');
+const tournamentRoute = require('./routes/Tournament');
 
 app.use('/ski-jumper', skiJumperRoute);
 app.use('/team', teamRoute);
+app.use('/tournament', tournamentRoute);
 
 app.listen(port);
