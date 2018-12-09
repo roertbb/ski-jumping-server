@@ -13,8 +13,7 @@ const SkiJumper = sequelize.define('ski_jumper', {
     allowNull: false
   },
   personal_best: {
-    type: Sequelize.FLOAT(4, 1),
-    allowNull: false
+    type: Sequelize.FLOAT(4, 1)
   },
   active: {
     type: Sequelize.STRING(1),
@@ -37,7 +36,10 @@ const SkiJumper = sequelize.define('ski_jumper', {
 SkiJumper.belongsTo(Person, {
   foreignKey: 'person_id',
   constraints: true,
-  primaryKey: true
+  primaryKey: true,
+  allowNull: false,
+  onDelete: 'restrict',
+  onUpdate: 'restrict'
 });
 
 module.exports = SkiJumper;

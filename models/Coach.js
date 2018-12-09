@@ -17,7 +17,10 @@ const Coach = sequelize.define('coach', {
 Coach.belongsTo(Person, {
   foreignKey: 'person_id',
   constraints: true,
-  primaryKey: true
+  primaryKey: true,
+  allowNull: false,
+  onDelete: 'restrict',
+  onUpdate: 'restrict'
 });
 
 module.exports = Coach;

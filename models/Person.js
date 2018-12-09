@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-
+const Team = require('./Team');
 const { sequelize } = require('../db');
 
 const Person = sequelize.define('person', {
@@ -20,11 +20,15 @@ const Person = sequelize.define('person', {
   birth_date: {
     type: Sequelize.DATEONLY,
     allowNull: false
-  },
-  team_id: {
-    type: Sequelize.INTEGER,
-    allowNull: false
   }
+});
+
+Person.belongsTo(Team, {
+  foreignKey: 'team_id',
+  constraints: true,
+  allowNull: false,
+  onDelete: 'restrict',
+  onUpdate: 'restrict'
 });
 
 module.exports = Person;

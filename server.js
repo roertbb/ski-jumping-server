@@ -28,7 +28,11 @@ app.use((req, res, next) => {
 const { connectToDb } = require('./db');
 connectToDb();
 
+// routes
 const skiJumperRoute = require('./routes/skiJumper');
+const teamRoute = require('./routes/Team');
+
 app.use('/ski-jumper', skiJumperRoute);
+app.use('/team', teamRoute);
 
 app.listen(port);
