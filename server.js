@@ -34,11 +34,15 @@ const teamRoute = require('./routes/Team');
 const tournamentRoute = require('./routes/Tournament');
 const skiJumpingHillRoute = require('./routes/SkiJumpingHill');
 const coachRoute = require('./routes/Coach');
+const individualCompetitonRoute = require('./routes/IndividualCompetiton');
+const teamCompetitonRoute = require('./routes/TeamCompetition');
 
 app.use('/ski-jumper', skiJumperRoute);
 app.use('/team', teamRoute);
 app.use('/tournament', tournamentRoute);
 app.use('/ski-jumping-hill', skiJumpingHillRoute);
 app.use('/coach', coachRoute);
+app.use('/individual-competition', individualCompetitonRoute);
+app.use('/team-competition', teamCompetitonRoute);
 
 app.listen(port);
