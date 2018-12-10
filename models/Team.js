@@ -1,3 +1,5 @@
+const TeamCompetition = require('./TeamCompetition');
+const Result = require('./Result');
 const Sequelize = require('sequelize');
 const { sequelize } = require('../db');
 
@@ -15,6 +17,19 @@ const Team = sequelize.define('team', {
   classification: {
     type: Sequelize.INTEGER(2)
   }
+});
+
+Team.belongsToMany(TeamCompetition, {
+  through: {
+    model: Result,
+    unique: false
+  },
+  primaryKey: true,
+  foreignKey: 'team_id',
+  otherKey: 'team_competition_id',
+  constraints: true,
+  onDelete: 'restrict',
+  onUpdate: 'restrict'
 });
 
 module.exports = Team;

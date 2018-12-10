@@ -1,5 +1,5 @@
 const Competition = require('../models/Competition');
-const TeamCompetition = require('../models/Teamcompetiton');
+const TeamCompetition = require('../models/TeamCompetition');
 const { Op } = require('sequelize');
 
 const relationData = {
