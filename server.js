@@ -36,6 +36,7 @@ const skiJumpingHillRoute = require('./routes/SkiJumpingHill');
 const coachRoute = require('./routes/Coach');
 const individualCompetitonRoute = require('./routes/IndividualCompetiton');
 const teamCompetitonRoute = require('./routes/TeamCompetition');
+const seriesResultRoute = require('./routes/SeriesResult');
 
 app.use('/ski-jumper', skiJumperRoute);
 app.use('/team', teamRoute);

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const { sequelize } = require('../db');
 
-const SkiJumpingHill = sequelize.define('ski_jumping_hill', {
+const SkiJumpingHill = sequelize.define('ski-jumping-hill', {
   ski_jumping_hill_id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,

@@ -16,7 +16,9 @@ exports.sequelize = sequelize;
 
 exports.connectToDb = () => {
   sequelize
-    .sync({ force: true })
+    .query('SET FOREIGN_KEY_CHECKS = 0')
+    .then(() => sequelize.sync({ force: true }))
+    .then(() => sequelize.query('SET FOREIGN_KEY_CHECKS = 1'))
     .then(() => {
       console.log('Connection has been established successfully.');
     })
