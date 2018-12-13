@@ -1,4 +1,4 @@
-const { parseCreate } = require('../parse');
+const { parseId, parseCreate } = require('../parse');
 
 exports.create = async (req, res, relationData) => {
   const { class: relClass, id: relId } = relationData.relation;
@@ -10,7 +10,7 @@ exports.create = async (req, res, relationData) => {
     );
 
     const result = await relClass.find({
-      where: { [id]: main.dataValues[id] },
+      where: parseId(id, main.dataValues),
       raw: true
     });
 

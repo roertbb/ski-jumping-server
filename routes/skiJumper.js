@@ -4,7 +4,7 @@ const router = express.Router();
 const skiJumpersController = require('../controllers/skiJumper');
 router.post('/', skiJumpersController.createSkiJumper);
 router.get('/', skiJumpersController.getSkiJumper);
-router.patch('/:id', skiJumpersController.updateSkiJumper);
-router.delete('/:id', skiJumpersController.deleteSkiJumper);
+router.patch('/', skiJumpersController.updateSkiJumper);
+router.delete('/', skiJumpersController.deleteSkiJumper);
 
 module.exports = router;

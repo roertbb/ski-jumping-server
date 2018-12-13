@@ -4,7 +4,7 @@ const router = express.Router();
 const teamCompetitionController = require('../controllers/TeamCompetition');
 router.post('/', teamCompetitionController.createTeamCompetition);
 router.get('/', teamCompetitionController.getTeamCompetition);
-router.patch('/:id', teamCompetitionController.updateTeamCompetition);
-router.delete('/:id', teamCompetitionController.deleteTeamCompetition);
+router.patch('/', teamCompetitionController.updateTeamCompetition);
+router.delete('/', teamCompetitionController.deleteTeamCompetition);
 
 module.exports = router;

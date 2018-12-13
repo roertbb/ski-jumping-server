@@ -1,5 +1,5 @@
 const { flatten } = require('../flatten');
-const { parseCreate } = require('../parse');
+const { parseId, parseCreate } = require('../parse');
 
 exports.create = async (req, res, relationData) => {
   const { class: secClass, id: secId } = relationData.secondaryRelation;
@@ -18,7 +18,7 @@ exports.create = async (req, res, relationData) => {
     );
 
     const result = await secClass.find({
-      where: { [id]: secondary.dataValues[id] },
+      where: parseId(id, main.dataValues),
       include: {
         model: primClass,
         nested: false,

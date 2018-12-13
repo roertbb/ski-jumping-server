@@ -47,3 +47,15 @@ exports.parseSearch2 = (data, relationData, table) => {
   });
   return constraints;
 };
+
+exports.parseId = (id, obj) => {
+  if (!Array.isArray(id))
+    return {
+      [id]: obj[id]
+    };
+  const conditions = {};
+  id.forEach(cond => {
+    conditions[cond] = obj[cond];
+  });
+  return conditions;
+};

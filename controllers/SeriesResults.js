@@ -74,7 +74,7 @@ const relationData = {
   name: 'Series Result'
 };
 
-const { get, create, update, del } = require('../utils/generalization');
+// const { get, create, update, del } = require('../utils/compound');
 
 exports.createSeriesResult = async (req, res) => {
   // create(req, res, relationData);

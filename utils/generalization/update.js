@@ -1,5 +1,5 @@
 const { flatten } = require('../flatten');
-const { parseCreate } = require('../parse');
+const { parseId, parseCreate } = require('../parse');
 
 exports.update = async (req, res, relationData) => {
   const { class: secClass, id: secId } = relationData.secondaryRelation;
@@ -8,22 +8,18 @@ exports.update = async (req, res, relationData) => {
 
   try {
     await primClass.update(parseCreate(req.body, relationData, primId), {
-      where: {
-        [id]: req.body[id]
-      }
+      where: parseId(id, req.body)
     });
 
     await secClass.update(parseCreate(req.body, relationData, secId), {
-      where: {
-        [id]: req.body[id]
-      }
+      where: parseId(id, req.body)
     });
 
     const updated = await secClass.find({
-      where: { [id]: req.body[id] },
+      where: parseId(id, req.body),
       include: {
         model: primClass,
-        where: { [id]: req.body[id] },
+        where: parseId(id, req.body),
         nested: false,
         required: true
       },

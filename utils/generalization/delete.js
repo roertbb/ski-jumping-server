@@ -1,11 +1,15 @@
+const { parseId } = require('../../utils/parse');
+
 exports.del = async (req, res, relationData) => {
   const { class: secClass } = relationData.secondaryRelation;
   const { class: primClass } = relationData.mainRelation;
   const { id, name } = relationData;
 
+  console.log('req.params', req.query);
+
   try {
-    await secClass.destroy({ where: { [id]: req.params.id } });
-    await primClass.destroy({ where: { [id]: req.params.id } });
+    await secClass.destroy({ where: parseId(id, req.query) });
+    await primClass.destroy({ where: parseId(id, req.query) });
     res.status(200).json({
       status: 'success',
       message: `Successfully deleted ${name}`
