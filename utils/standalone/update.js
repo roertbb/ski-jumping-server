@@ -1,4 +1,3 @@
-const { flatten } = require('../flatten');
 const { parseCreate } = require('../parse');
 
 exports.update = async (req, res, relationData) => {

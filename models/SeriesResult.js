@@ -24,6 +24,28 @@ const SeriesResult = sequelize.define('series-result', {
     constraints: true,
     onDelete: 'restrict',
     onUpdate: 'restrict'
+  },
+  state: {
+    type: Sequelize.STRING(3),
+    allowNull: false
+  },
+  distance: {
+    type: Sequelize.FLOAT(4, 1)
+  },
+  gate: {
+    type: Sequelize.INTEGER(2)
+  },
+  style_points: {
+    type: Sequelize.FLOAT(4, 1)
+  },
+  distance_points: {
+    type: Sequelize.FLOAT(4, 1)
+  },
+  gate_points: {
+    type: Sequelize.FLOAT(4, 1)
+  },
+  wind_points: {
+    type: Sequelize.FLOAT(4, 1)
   }
 });
 
