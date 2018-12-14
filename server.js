@@ -36,6 +36,8 @@ const skiJumpingHillRoute = require('./routes/SkiJumpingHill');
 const coachRoute = require('./routes/Coach');
 const individualCompetitonRoute = require('./routes/IndividualCompetiton');
 const teamCompetitonRoute = require('./routes/TeamCompetition');
+const competitonRoute = require('./routes/Competition');
+const placementRoute = require('./routes/Placement');
 const seriesResultRoute = require('./routes/SeriesResult');
 
 app.use('/ski-jumper', skiJumperRoute);
@@ -45,5 +47,8 @@ app.use('/ski-jumping-hill', skiJumpingHillRoute);
 app.use('/coach', coachRoute);
 app.use('/individual-competition', individualCompetitonRoute);
 app.use('/team-competition', teamCompetitonRoute);
+app.use('/competition', competitonRoute);
+app.use('/placement', placementRoute);
+app.use('/series-result', seriesResultRoute);
 
 app.listen(port);

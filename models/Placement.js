@@ -1,10 +1,11 @@
 const Competition = require('./Competition');
 const SkiJumper = require('./SkiJumper');
+const Person = require('./Person');
 const Sequelize = require('sequelize');
 const { sequelize } = require('../db');
 
 const Placement = sequelize.define('placement', {
-  ski_jumper_id: {
+  person_id: {
     type: Sequelize.INTEGER,
     primaryKey: true
   },
@@ -20,13 +21,23 @@ const Placement = sequelize.define('placement', {
   }
 });
 
+Placement.hasOne(Person, {
+  foreignKey: 'person_id'
+  // constraints: true,
+  // primaryKey: true,
+  // allowNull: false,
+  // onDelete: 'restrict',
+  // onUpdate: 'restrict'
+});
+
 SkiJumper.belongsToMany(Competition, {
   through: {
     model: Placement,
-    unique: false
+    unique: false,
+    as: 'Placement'
   },
   primaryKey: true,
-  foreignKey: 'ski_jumper_id',
+  foreignKey: 'person_id',
   otherKey: 'competition_id',
   constraints: true,
   onDelete: 'restrict',

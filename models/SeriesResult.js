@@ -17,10 +17,10 @@ const SeriesResult = sequelize.define('series-result', {
     onDelete: 'restrict',
     onUpdate: 'restrict'
   },
-  ski_jumper_id: {
+  person_id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
-    references: { model: 'placements', key: 'ski_jumper_id' },
+    references: { model: 'placements', key: 'person_id' },
     constraints: true,
     onDelete: 'restrict',
     onUpdate: 'restrict'

@@ -5,8 +5,6 @@ exports.del = async (req, res, relationData) => {
   const { class: primClass } = relationData.mainRelation;
   const { id, name } = relationData;
 
-  console.log('req.params', req.query);
-
   try {
     await secClass.destroy({ where: parseId(id, req.query) });
     await primClass.destroy({ where: parseId(id, req.query) });

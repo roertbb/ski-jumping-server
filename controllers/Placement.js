@@ -1,4 +1,7 @@
 const Placement = require('../models/Placement');
+const SeriesResult = require('../models/SeriesResult');
+const Person = require('../models/Person');
+const { flatten } = require('../utils/flatten');
 const { Op } = require('sequelize');
 
 const relationData = {
@@ -32,24 +35,99 @@ const relationData = {
     }
   },
   relation: { class: Placement, id: 'placement' },
-  id: ['ski_jumper_id', 'competition_id'],
+  id: ['person_id', 'competition_id'],
   name: 'Placement'
 };
 
-const { get, create, update, del } = require('../utils/generalization');
-
 exports.createPlacement = async (req, res) => {
-  // create(req, res, relationData);
+  const { person_id, competition_id } = req.body;
+
+  try {
+    await Placement.create({
+      person_id,
+      competition_id
+    });
+
+    const result = await Placement.find({
+      where: { competition_id, person_id },
+      include: [
+        {
+          model: Person,
+          nested: false,
+          required: true
+        }
+      ],
+      raw: true
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: `Placement created`,
+      created: flatten(result)
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: 'failure',
+      error
+    });
+  }
 };
 
 exports.getPlacement = async (req, res) => {
-  // get(req, res, relationData);
-};
+  try {
+    const result = await Placement.findAll({
+      where: { competition_id: req.query.competition_id },
+      include: [
+        {
+          model: Person,
+          nested: false,
+          required: true
+        }
+      ],
+      raw: true
+    });
 
-exports.updatePlacement = async (req, res) => {
-  // update(req, res, relationData);
+    res.status(200).json({
+      status: 'success',
+      results: result.map(res => flatten(res))
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: 'failure',
+      error
+    });
+  }
 };
 
 exports.deletePlacement = async (req, res) => {
-  // del(req, res, relationData);
+  const { person_id, competition_id } = req.query;
+
+  try {
+    await SeriesResult.destroy({
+      where: {
+        person_id,
+        competition_id
+      }
+    });
+    await Placement.destroy({
+      where: {
+        person_id,
+        competition_id
+      }
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: `Successfully deleted Placement`
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: 'failure',
+      message: `Couldn't delete Placement`,
+      error
+    });
+  }
 };
