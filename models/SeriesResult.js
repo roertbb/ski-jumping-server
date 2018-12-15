@@ -8,22 +8,23 @@ const SeriesResult = sequelize.define('series-result', {
   },
   competition_id: {
     type: Sequelize.INTEGER,
-    primaryKey: true,
-    references: {
-      model: 'placements',
-      key: 'competition_id'
-    },
-    constraints: true,
-    onDelete: 'restrict',
-    onUpdate: 'restrict'
+    primaryKey: true
+    // references: {
+    //   model: 'placements',
+    //   key: 'competition_id'
+    // }
+    // onDelete: 'restrict',
+    // onUpdate: 'restrict'
   },
   person_id: {
     type: Sequelize.INTEGER,
-    primaryKey: true,
-    references: { model: 'placements', key: 'person_id' },
-    constraints: true,
-    onDelete: 'restrict',
-    onUpdate: 'restrict'
+    primaryKey: true
+    // references: {
+    //   model: 'placements',
+    //   key: 'person_id'
+    // }
+    // onDelete: 'restrict',
+    // onUpdate: 'restrict'
   },
   state: {
     type: Sequelize.STRING(3),

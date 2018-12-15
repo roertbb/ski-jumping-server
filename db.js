@@ -21,6 +21,9 @@ const SkiJumpingHill = require('./models/SkiJumpingHill');
 const Competition = require('./models/Competition');
 const IndividualCompetition = require('./models/IndividualCompetition');
 
+const { triggers, triggerNames } = require('./triggers');
+const fs = require('fs');
+
 exports.connectToDb = () => {
   sequelize
     .query('SET FOREIGN_KEY_CHECKS = 0')
@@ -28,6 +31,27 @@ exports.connectToDb = () => {
     .then(() => sequelize.query('SET FOREIGN_KEY_CHECKS = 1'))
     .then(() => {
       console.log('Connection has been established successfully.');
+    })
+    .then(async () => {
+      const triggersContent = await Promise.all(
+        triggers.map(trigger => {
+          return fs.readFileSync(`./triggers/${trigger}`, 'utf8');
+        })
+      );
+      // drop trigger
+      for (const trigger of triggerNames) {
+        await sequelize.query(`DROP TRIGGER IF EXISTS ${trigger};`);
+      }
+      // create triggers
+      for (const trigger of triggersContent) {
+        await sequelize.query(trigger);
+      }
+    })
+    .then(async () => {
+      // workaround for composite foreign key constraint :(
+      sequelize.query(
+        'ALTER TABLE `series-results` ADD CONSTRAINT referencingPlacement FOREIGN KEY(person_id,competition_id) REFERENCES placements(person_id,competition_id);'
+      );
     })
     .then(async () => {
       await Team.create({
@@ -81,13 +105,13 @@ exports.connectToDb = () => {
       await Competition.create({
         competition_id: 1,
         competition_date: '2018-01-01',
-        hill_id: 1,
+        ski_jumping_hill_id: 1,
         start_gate: 1
       });
       await Competition.create({
         competition_id: 2,
         competition_date: '2018-01-02',
-        hill_id: 2,
+        ski_jumping_hill_id: 2,
         start_gate: 2
       });
       await IndividualCompetition.create({

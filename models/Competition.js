@@ -30,7 +30,7 @@ Competition.belongsTo(Tournament, {
 });
 
 Competition.belongsTo(SkiJumpingHill, {
-  foreignKey: 'hill_id',
+  foreignKey: 'ski_jumping_hill_id',
   constraints: true,
   allowNull: false,
   onDelete: 'restrict',

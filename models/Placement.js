@@ -16,18 +16,13 @@ const Placement = sequelize.define('placement', {
   place: {
     type: Sequelize.INTEGER(2)
   },
-  point: {
+  points: {
     type: Sequelize.INTEGER(3)
   }
 });
 
 Placement.hasOne(Person, {
   foreignKey: 'person_id'
-  // constraints: true,
-  // primaryKey: true,
-  // allowNull: false,
-  // onDelete: 'restrict',
-  // onUpdate: 'restrict'
 });
 
 SkiJumper.belongsToMany(Competition, {

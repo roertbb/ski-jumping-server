@@ -105,18 +105,20 @@ exports.deletePlacement = async (req, res) => {
   const { person_id, competition_id } = req.query;
 
   try {
-    await SeriesResult.destroy({
+    const resp1 = await SeriesResult.destroy({
       where: {
-        person_id,
-        competition_id
+        person_id: Number(person_id),
+        competition_id: Number(competition_id)
       }
     });
-    await Placement.destroy({
+    console.log(resp1);
+    const resp2 = await Placement.destroy({
       where: {
-        person_id,
-        competition_id
+        person_id: Number(person_id),
+        competition_id: Number(competition_id)
       }
     });
+    console.log(resp2);
 
     res.status(200).json({
       status: 'success',
