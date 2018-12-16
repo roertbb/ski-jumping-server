@@ -21,7 +21,7 @@ const SkiJumpingHill = require('./models/SkiJumpingHill');
 const Competition = require('./models/Competition');
 const IndividualCompetition = require('./models/IndividualCompetition');
 
-const { triggers, triggerNames } = require('./triggers');
+const { files, triggerNames, procedureNames } = require('./triggers');
 const fs = require('fs');
 
 exports.connectToDb = () => {
@@ -33,18 +33,22 @@ exports.connectToDb = () => {
       console.log('Connection has been established successfully.');
     })
     .then(async () => {
-      const triggersContent = await Promise.all(
-        triggers.map(trigger => {
+      const filesContent = await Promise.all(
+        files.map(trigger => {
           return fs.readFileSync(`./triggers/${trigger}`, 'utf8');
         })
       );
+      // drop procedure
+      for (const procedure of procedureNames) {
+        await sequelize.query(`DROP PROCEDURE IF EXISTS ${procedure};`);
+      }
       // drop trigger
       for (const trigger of triggerNames) {
         await sequelize.query(`DROP TRIGGER IF EXISTS ${trigger};`);
       }
       // create triggers
-      for (const trigger of triggersContent) {
-        await sequelize.query(trigger);
+      for (const file of filesContent) {
+        await sequelize.query(file);
       }
     })
     .then(async () => {

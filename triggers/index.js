@@ -1,16 +1,29 @@
-exports.triggers = [
+exports.files = [
   './newHillRecord.sql',
-  './newHillRecordUpdate.sql',
+  './newHillRecordTriggerInsert.sql',
+  './newHillRecordTriggerUpdate.sql',
   './newSkiJumperRecord.sql',
-  './newSkiJumperRecordUpdate.sql',
+  './newSkiJumperRecordTriggerInsert.sql',
+  './newSkiJumperRecordTriggerUpdate.sql',
   './calculatePlacementPoints.sql',
-  './calculatePlacementPointsUpdate.sql'
+  './calculatePlacementPointsInsert.sql',
+  './calculatePlacementPointsUpdate.sql',
+  './updatePlacement.sql',
+  './updateClassification.sql',
+  './insertResultForTeam.sql'
 ];
 exports.triggerNames = [
-  'newHillRecord',
-  'newHillRecordUpdate',
-  'newSkiJumperRecord',
+  'newHillRecordTriggerUpdate',
+  'newHillRecordTriggerInsert',
+  'newSkiJumperRecordInsert',
   'newSkiJumperRecordUpdate',
-  'calculatePlacementPoints',
+  'calculatePlacementPointsInsert',
   'calculatePlacementPointsUpdate'
+];
+exports.procedureNames = [
+  'newHillRecord',
+  'newSkiJumperRecord',
+  'updatePlacement',
+  'updateClassification',
+  'calculatePlacementPoints'
 ];

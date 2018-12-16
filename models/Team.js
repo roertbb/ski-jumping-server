@@ -26,7 +26,7 @@ Team.belongsToMany(TeamCompetition, {
   },
   primaryKey: true,
   foreignKey: 'team_id',
-  otherKey: 'team_competition_id',
+  otherKey: 'competition_id',
   constraints: true,
   onDelete: 'restrict',
   onUpdate: 'restrict'
