@@ -9,7 +9,7 @@ const relationData = {
       'competition_date',
       'start_gate',
       'tournament_id',
-      'hill_id'
+      'ski_jumping_hill_id'
     ],
     'team-competition': ['competition_id']
   },
@@ -34,7 +34,7 @@ const relationData = {
       tournament_id: {
         op: Op.eq
       },
-      hill_id: {
+      ski_jumping_hill_id: {
         op: Op.eq
       }
     },

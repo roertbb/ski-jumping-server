@@ -28,8 +28,10 @@ const SkiJumper = sequelize.define('ski-jumper', {
     allowNull: false
   },
   classification: {
-    type: Sequelize.INTEGER(2),
-    defaultValue: null
+    type: Sequelize.INTEGER(2)
+  },
+  classification_points: {
+    type: Sequelize.INTEGER(4)
   }
 });
 

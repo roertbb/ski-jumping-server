@@ -20,6 +20,7 @@ const SkiJumper = require('./models/SkiJumper');
 const SkiJumpingHill = require('./models/SkiJumpingHill');
 const Competition = require('./models/Competition');
 const IndividualCompetition = require('./models/IndividualCompetition');
+const TeamCompetition = require('./models/TeamCompetition');
 
 const { files, triggerNames, procedureNames } = require('./triggers');
 const fs = require('fs');
@@ -53,9 +54,51 @@ exports.connectToDb = () => {
     })
     .then(async () => {
       // workaround for composite foreign key constraint :(
-      sequelize.query(
+      await sequelize.query(
         'ALTER TABLE `series-results` ADD CONSTRAINT referencingPlacement FOREIGN KEY(person_id,competition_id) REFERENCES placements(person_id,competition_id);'
       );
+    })
+    .then(async () => {
+      const team_points = [400, 350, 300, 250, 200, 150, 100, 50];
+      await sequelize.query(`DROP TABLE IF EXISTS team_points;`);
+      await sequelize.query(
+        `CREATE TABLE team_points ( place INTEGER PRIMARY KEY, points INTEGER);`
+      );
+      team_points.forEach(async (pts, index) => {
+        await sequelize.query(
+          `INSERT INTO team_points(place, points) VALUES (${index + 1},${pts});`
+        );
+      });
+    })
+    .then(async () => {
+      await sequelize.query(`DROP TABLE IF EXISTS individual_points;`);
+      await sequelize.query(
+        `CREATE TABLE individual_points ( place INTEGER PRIMARY KEY, points INTEGER);`
+      );
+      const individual_points = [
+        100,
+        80,
+        60,
+        50,
+        45,
+        40,
+        36,
+        32,
+        29,
+        26,
+        24,
+        22,
+        20,
+        18,
+        16
+      ];
+
+      individual_points.forEach(async (pts, index) => {
+        await sequelize.query(
+          `INSERT INTO individual_points(place, points) VALUES (${index +
+            1},${pts});`
+        );
+      });
     })
     .then(async () => {
       await Team.create({
@@ -122,9 +165,8 @@ exports.connectToDb = () => {
         competition_id: 1,
         qualification_date: '2018-01-01'
       });
-      await IndividualCompetition.create({
-        competition_id: 2,
-        qualification_date: '2018-01-02'
+      await TeamCompetition.create({
+        competition_id: 2
       });
     })
     .catch(err => {

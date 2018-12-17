@@ -10,7 +10,8 @@ exports.files = [
   './calculatePlacementPointsUpdate.sql',
   './updatePlacement.sql',
   './updateClassification.sql',
-  './insertResultForTeam.sql'
+  './updateTeamComp.sql',
+  './updateTeamClassification.sql'
 ];
 exports.triggerNames = [
   'newHillRecordTriggerUpdate',
@@ -24,6 +25,8 @@ exports.procedureNames = [
   'newHillRecord',
   'newSkiJumperRecord',
   'updatePlacement',
+  'calculatePlacementPoints',
+  'updateResultForTeam',
   'updateClassification',
-  'calculatePlacementPoints'
+  'updateTeamClassification'
 ];

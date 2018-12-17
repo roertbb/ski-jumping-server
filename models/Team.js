@@ -16,6 +16,9 @@ const Team = sequelize.define('team', {
   },
   classification: {
     type: Sequelize.INTEGER(2)
+  },
+  classification_points: {
+    type: Sequelize.INTEGER(4)
   }
 });
 

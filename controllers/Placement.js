@@ -47,7 +47,6 @@ exports.createPlacement = async (req, res) => {
       person_id,
       competition_id
     });
-
     const result = await Placement.find({
       where: { competition_id, person_id },
       include: [

@@ -20,6 +20,9 @@ const Person = sequelize.define('person', {
   birth_date: {
     type: Sequelize.DATEONLY,
     allowNull: false
+  },
+  team_id: {
+    type: Sequelize.INTEGER
   }
 });
 
