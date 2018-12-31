@@ -1,5 +1,6 @@
 const Person = require('../models/Person');
 const SkiJumper = require('../models/SkiJumper');
+const Team = require('../models/Team');
 const { Op } = require('sequelize');
 const { sequelize } = require('../db');
 
@@ -78,8 +79,43 @@ exports.createSkiJumper = async (req, res) => {
   create(req, res, relationData);
 };
 
-exports.getSkiJumper = async (req, res) => {
+exports.getSkiJumpers = async (req, res) => {
   get(req, res, relationData);
+};
+
+exports.getSkiJumper = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const skiJumper = await SkiJumper.findById(id, {
+      raw: true
+    });
+
+    const person = await Person.findById(id, {
+      raw: true
+    });
+
+    const team = await Team.findById(person.team_id, { raw: true });
+
+    const bmiResp = await sequelize.query(`select calcBMI(${id})`);
+    const bmi = Object.values(bmiResp[0][0])[0];
+
+    res.status(200).json({
+      status: 'success',
+      skiJumper: {
+        ...team,
+        ...person,
+        ...skiJumper,
+        bmi
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: 'failure',
+      error
+    });
+  }
 };
 
 exports.updateSkiJumper = async (req, res) => {

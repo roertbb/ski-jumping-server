@@ -31,7 +31,7 @@ exports.createTeam = async (req, res) => {
   create(req, res, relationData);
 };
 
-exports.getTeam = async (req, res) => {
+exports.getTeams = async (req, res) => {
   get(req, res, relationData);
 };
 
