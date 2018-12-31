@@ -1,5 +1,9 @@
 const Team = require('../models/Team');
+const Person = require('../models/Person');
+const SkiJumper = require('../models/SkiJumper');
+const Coach = require('../models/Coach');
 const { Op } = require('sequelize');
+const { deletePrefixes } = require('../utils/deletePrefixes');
 
 const relationData = {
   create: {
@@ -33,6 +37,53 @@ exports.createTeam = async (req, res) => {
 
 exports.getTeams = async (req, res) => {
   get(req, res, relationData);
+};
+
+exports.getTeam = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const team = await Team.findById(id, { raw: true });
+    const skiJumpers = await SkiJumper.findAll({
+      include: {
+        where: { team_id: id },
+        model: Person,
+        raw: true,
+        required: true,
+        nested: false
+      },
+      raw: true
+    });
+    const coaches = await Coach.findAll({
+      include: {
+        where: { team_id: id },
+        model: Person,
+        raw: true,
+        required: true,
+        nested: false
+      },
+      raw: true
+    });
+    console.log({
+      ...team,
+      skiJumpers: deletePrefixes(skiJumpers),
+      coaches: deletePrefixes(coaches)
+    });
+    res.status(200).json({
+      status: 'success',
+      team: {
+        ...team,
+        skiJumpers: deletePrefixes(skiJumpers),
+        coaches: deletePrefixes(coaches)
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: 'failure',
+      error
+    });
+  }
 };
 
 exports.updateTeam = async (req, res) => {

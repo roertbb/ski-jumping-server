@@ -2,6 +2,7 @@ const Person = require('../models/Person');
 const Coach = require('../models/Coach');
 const Team = require('../models/Team');
 const { Op } = require('sequelize');
+const { deletePrefixesSingleEntry } = require('../utils/deletePrefixes');
 
 const relationData = {
   create: {
@@ -55,18 +56,22 @@ exports.getCoach = async (req, res) => {
 
   try {
     const coach = await Coach.findById(id, {
+      include: {
+        model: Person,
+        raw: true,
+        required: true,
+        nested: false
+      },
       raw: true
     });
-    const person = await Person.findById(id, { raw: true });
-    console.log(coach, person);
-    const team = await Team.findById(person.team_id, { raw: true });
+    const parsedCoach = deletePrefixesSingleEntry(coach);
+    const team = await Team.findById(parsedCoach.team_id, { raw: true });
 
     res.status(200).json({
       status: 'success',
       coach: {
         ...team,
-        ...person,
-        ...coach
+        ...parsedCoach
       }
     });
   } catch (error) {
