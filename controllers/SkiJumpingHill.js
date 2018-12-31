@@ -65,8 +65,25 @@ exports.createSkiJumpingHill = async (req, res) => {
   create(req, res, relationData);
 };
 
-exports.getSkiJumpingHill = async (req, res) => {
+exports.getSkiJumpingHills = async (req, res) => {
   get(req, res, relationData);
+};
+
+exports.getSkiJumpingHill = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const hill = await SkiJumpingHill.findById(id, { raw: true });
+    res.status(200).json({
+      status: 'success',
+      hill
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: 'failure',
+      error
+    });
+  }
 };
 
 exports.updateSkiJumpingHill = async (req, res) => {
