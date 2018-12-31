@@ -11,7 +11,8 @@ exports.files = [
   './updatePlacement.sql',
   './updateClassification.sql',
   './updateTeamComp.sql',
-  './updateTeamClassification.sql'
+  './updateTeamClassification.sql',
+  './calcBMI.sql'
 ];
 exports.triggerNames = [
   'newHillRecordTriggerUpdate',
@@ -30,3 +31,4 @@ exports.procedureNames = [
   'updateClassification',
   'updateTeamClassification'
 ];
+exports.functionNames = ['calcBMI'];

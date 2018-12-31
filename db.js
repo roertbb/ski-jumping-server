@@ -22,7 +22,12 @@ const Competition = require('./models/Competition');
 const IndividualCompetition = require('./models/IndividualCompetition');
 const TeamCompetition = require('./models/TeamCompetition');
 
-const { files, triggerNames, procedureNames } = require('./triggers');
+const {
+  files,
+  triggerNames,
+  procedureNames,
+  functionNames
+} = require('./triggers');
 const fs = require('fs');
 
 exports.connectToDb = () => {
@@ -42,6 +47,10 @@ exports.connectToDb = () => {
       // drop procedure
       for (const procedure of procedureNames) {
         await sequelize.query(`DROP PROCEDURE IF EXISTS ${procedure};`);
+      }
+      // drop functions
+      for (const func of functionNames) {
+        await sequelize.query(`DROP FUNCTION IF EXISTS ${func};`);
       }
       // drop trigger
       for (const trigger of triggerNames) {

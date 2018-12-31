@@ -9,5 +9,4 @@ begin
   update `placements` set points = series_points where person_id=prsnid AND competition_id=cmptid;
 
   CALL updatePlacement(cmptid);
-  -- CALL updateClassification();
 end

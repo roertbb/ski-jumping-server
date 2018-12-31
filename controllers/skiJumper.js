@@ -1,6 +1,7 @@
 const Person = require('../models/Person');
 const SkiJumper = require('../models/SkiJumper');
 const { Op } = require('sequelize');
+const { sequelize } = require('../db');
 
 const relationData = {
   create: {
@@ -87,4 +88,13 @@ exports.updateSkiJumper = async (req, res) => {
 
 exports.deleteSkiJumper = async (req, res) => {
   del(req, res, relationData);
+};
+
+exports.getBmi = async (req, res) => {
+  const resp = await sequelize.query(`select calcBMI(${req.query.person_id})`);
+  const bmi = Object.values(resp[0][0])[0];
+  res.status(200).json({
+    status: 'success',
+    bmi: bmi
+  });
 };
