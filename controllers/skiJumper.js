@@ -90,13 +90,10 @@ exports.getSkiJumper = async (req, res) => {
     const skiJumper = await SkiJumper.findById(id, {
       raw: true
     });
-
     const person = await Person.findById(id, {
       raw: true
     });
-
     const team = await Team.findById(person.team_id, { raw: true });
-
     const bmiResp = await sequelize.query(`select calcBMI(${id})`);
     const bmi = Object.values(bmiResp[0][0])[0];
 

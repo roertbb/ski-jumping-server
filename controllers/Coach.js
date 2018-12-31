@@ -1,5 +1,6 @@
 const Person = require('../models/Person');
 const Coach = require('../models/Coach');
+const Team = require('../models/Team');
 const { Op } = require('sequelize');
 
 const relationData = {
@@ -45,8 +46,36 @@ exports.createCoach = async (req, res) => {
   create(req, res, relationData);
 };
 
-exports.getCoach = async (req, res) => {
+exports.getCoaches = async (req, res) => {
   get(req, res, relationData);
+};
+
+exports.getCoach = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const coach = await Coach.findById(id, {
+      raw: true
+    });
+    const person = await Person.findById(id, { raw: true });
+    console.log(coach, person);
+    const team = await Team.findById(person.team_id, { raw: true });
+
+    res.status(200).json({
+      status: 'success',
+      coach: {
+        ...team,
+        ...person,
+        ...coach
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: 'failure',
+      error
+    });
+  }
 };
 
 exports.updateCoach = async (req, res) => {
