@@ -1,6 +1,9 @@
 const Competition = require('../models/Competition');
+const Tournament = require('../models/Tournament');
+const SkiJumpingHill = require('../models/SkiJumpingHill');
 const IndividualCompetition = require('../models/IndividualCompetition');
 const { Op } = require('sequelize');
+const { deletePrefixesSingleEntry } = require('../utils/deletePrefixes');
 
 const relationData = {
   create: {
@@ -64,8 +67,49 @@ exports.createIndividualCompetition = async (req, res) => {
   create(req, res, relationData);
 };
 
-exports.getIndividualCompetition = async (req, res) => {
+exports.getIndividualCompetitions = async (req, res) => {
   get(req, res, relationData);
+};
+
+exports.getIndividualCompetition = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const indComp = await IndividualCompetition.findById(id, {
+      include: {
+        model: Competition,
+        where: { competition_id: id },
+        raw: true,
+        required: true,
+        nested: false
+      },
+      raw: true
+    });
+    const parsedIndComp = deletePrefixesSingleEntry(indComp);
+    const tournament = await Tournament.findAll({
+      where: { tournament_id: parsedIndComp.tournament_id },
+      raw: true
+    });
+    const hill = await SkiJumpingHill.findAll({
+      where: { ski_jumping_hill_id: parsedIndComp.ski_jumping_hill_id },
+      raw: true
+    });
+
+    res.status(200).json({
+      status: 'success',
+      indComp: {
+        ...parsedIndComp,
+        tournament: tournament[0] || undefined,
+        hill: hill[0] || undefined
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: 'failure',
+      error
+    });
+  }
 };
 
 exports.updateIndividualCompetition = async (req, res) => {
