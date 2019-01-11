@@ -35,7 +35,7 @@ exports.finishCompetition = async (req, res) => {
         competition_id: req.query.competition_id
       }
     });
-    console.log(resp);
+    // console.log(resp);
     if (resp !== null) {
       await sequelize.query('call updateClassification();');
     } else {

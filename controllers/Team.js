@@ -64,11 +64,6 @@ exports.getTeam = async (req, res) => {
       },
       raw: true
     });
-    console.log({
-      ...team,
-      skiJumpers: deletePrefixes(skiJumpers),
-      coaches: deletePrefixes(coaches)
-    });
     res.status(200).json({
       status: 'success',
       team: {

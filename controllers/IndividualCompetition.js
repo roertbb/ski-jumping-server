@@ -3,7 +3,13 @@ const Tournament = require('../models/Tournament');
 const SkiJumpingHill = require('../models/SkiJumpingHill');
 const IndividualCompetition = require('../models/IndividualCompetition');
 const { Op } = require('sequelize');
-const { deletePrefixesSingleEntry } = require('../utils/deletePrefixes');
+const {
+  deletePrefixes,
+  deletePrefixesSingleEntry,
+  deletePrefixesToObj
+} = require('../utils/deletePrefixes');
+const { parseSearch2 } = require('../utils/parse');
+const { flatten } = require('../utils/flatten');
 
 const relationData = {
   create: {

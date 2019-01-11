@@ -24,7 +24,7 @@ begin
     end if;
 
     -- calculate points for team (results)
-    select sum(points) into teampoints from `placements` where competition_id = new.competition_id;
+    select sum(points) into teampoints from `placements` join `people` using(person_id) where competition_id = new.competition_id and team_id = teamid;
     update `results` set points = teampoints where competition_id = new.competition_id and team_id = teamid;
 
     -- recalculate place for all team (results)
