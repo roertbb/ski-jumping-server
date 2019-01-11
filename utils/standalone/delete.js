@@ -1,4 +1,5 @@
 const { parseId } = require('../../utils/parse');
+const parseError = require('../parseError');
 
 exports.del = async (req, res, relationData) => {
   const { class: relClass } = relationData.relation;
@@ -11,11 +12,6 @@ exports.del = async (req, res, relationData) => {
       message: `Successfully deleted ${name}`
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: 'failure',
-      message: `Couldn't delete ${name}`,
-      error
-    });
+    res.status(500).json(parseError(error, name));
   }
 };

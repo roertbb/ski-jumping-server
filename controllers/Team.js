@@ -21,6 +21,14 @@ const relationData = {
       classification_to: {
         value: 'classification',
         op: Op.lte
+      },
+      classification_points_from: {
+        value: 'classification_points',
+        op: Op.gte
+      },
+      classification_points_to: {
+        value: 'classification_points',
+        op: Op.lte
       }
     }
   },

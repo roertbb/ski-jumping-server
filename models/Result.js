@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const { sequelize } = require('../db');
-const Team = require('../models/Team');
 
 const Result = sequelize.define('result', {
   team_id: {

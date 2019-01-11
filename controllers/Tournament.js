@@ -5,6 +5,7 @@ const TeamCompetition = require('../models/TeamCompetition');
 const Competition = require('../models/Competition');
 const { Op } = require('sequelize');
 const { deletePrefixes } = require('../utils/deletePrefixes');
+const parseError = require('../utils/parseError');
 
 const relationData = {
   create: {
