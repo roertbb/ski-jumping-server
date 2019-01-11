@@ -1,6 +1,8 @@
 const Person = require('../models/Person');
 const SkiJumper = require('../models/SkiJumper');
 const Team = require('../models/Team');
+const Placement = require('../models/Placement');
+const Competition = require('../models/Competition');
 const { Op } = require('sequelize');
 const { sequelize } = require('../db');
 const { deletePrefixesSingleEntry } = require('../utils/deletePrefixes');
@@ -102,12 +104,19 @@ exports.getSkiJumper = async (req, res) => {
     const bmiResp = await sequelize.query(`select calcBMI(${id})`);
     const bmi = Object.values(bmiResp[0][0])[0];
 
+    const placements = await Placement.findAll({
+      where: {
+        person_id: parsedSkiJumper.person_id
+      }
+    });
+
     res.status(200).json({
       status: 'success',
       skiJumper: {
         ...team,
         ...parsedSkiJumper,
-        bmi
+        bmi,
+        placements
       }
     });
   } catch (error) {
