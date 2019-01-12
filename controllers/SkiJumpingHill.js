@@ -1,4 +1,6 @@
-const SkiJumpingHill = require('../models/SkiJumpingHill');
+const {
+  models: { SkiJumpingHill }
+} = require('../db');
 const { Op } = require('sequelize');
 
 const relationData = {

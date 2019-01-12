@@ -1,7 +1,6 @@
-const Competition = require('../models/Competition');
-const Tournament = require('../models/Tournament');
-const SkiJumpingHill = require('../models/SkiJumpingHill');
-const TeamCompetition = require('../models/TeamCompetition');
+const {
+  models: { SkiJumpingHill, Competition, TeamCompetition, Tournament }
+} = require('../db');
 const { Op } = require('sequelize');
 const { deletePrefixesSingleEntry } = require('../utils/deletePrefixes');
 

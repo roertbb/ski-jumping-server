@@ -12,6 +12,40 @@ const sequelize = new Sequelize(
   }
 );
 
+const path = require('path');
+
+const models = {
+  Coach: sequelize.import('./models/Coach.js'),
+  Competition: sequelize.import(
+    path.join(__dirname, './models/Competition.js')
+  ),
+  IndividualCompetition: sequelize.import(
+    path.join(__dirname, './models/IndividualCompetition.js')
+  ),
+  Person: sequelize.import(path.join(__dirname, './models/Person.js')),
+  Placement: sequelize.import(path.join(__dirname, './models/Placement.js')),
+  Result: sequelize.import(path.join(__dirname, './models/Result.js')),
+  SeriesResult: sequelize.import(
+    path.join(__dirname, './models/SeriesResult.js')
+  ),
+  SkiJumper: sequelize.import(path.join(__dirname, './models/SkiJumper.js')),
+  SkiJumpingHill: sequelize.import(
+    path.join(__dirname, './models/SkiJumpingHill.js')
+  ),
+  Team: sequelize.import(path.join(__dirname, './models/Team.js')),
+  TeamCompetition: sequelize.import(
+    path.join(__dirname, './models/TeamCompetition.js')
+  ),
+  Tournament: sequelize.import(path.join(__dirname, './models/Tournament.js'))
+};
+
+Object.keys(models).forEach(key => {
+  if ('associate' in models[key]) {
+    models[key].associate(models);
+  }
+});
+
+exports.models = models;
 exports.sequelize = sequelize;
 
 const initialMigration = require('./utils/initialMigration');

@@ -1,15 +1,8 @@
-const Competition = require('../models/Competition');
-const Tournament = require('../models/Tournament');
-const SkiJumpingHill = require('../models/SkiJumpingHill');
-const IndividualCompetition = require('../models/IndividualCompetition');
-const { Op } = require('sequelize');
 const {
-  deletePrefixes,
-  deletePrefixesSingleEntry,
-  deletePrefixesToObj
-} = require('../utils/deletePrefixes');
-const { parseSearch2 } = require('../utils/parse');
-const { flatten } = require('../utils/flatten');
+  models: { SkiJumpingHill, Competition, IndividualCompetition, Tournament }
+} = require('../db');
+const { Op } = require('sequelize');
+const { deletePrefixesSingleEntry } = require('../utils/deletePrefixes');
 
 const relationData = {
   create: {

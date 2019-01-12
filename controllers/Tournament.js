@@ -1,8 +1,12 @@
-const Tournament = require('../models/Tournament');
-const SkiJumpingHill = require('../models/SkiJumpingHill');
-const IndividualCompetition = require('../models/IndividualCompetition');
-const TeamCompetition = require('../models/TeamCompetition');
-const Competition = require('../models/Competition');
+const {
+  models: {
+    SkiJumpingHill,
+    Competition,
+    IndividualCompetition,
+    TeamCompetition,
+    Tournament
+  }
+} = require('../db');
 const { Op } = require('sequelize');
 const { deletePrefixes } = require('../utils/deletePrefixes');
 const parseError = require('../utils/parseError');

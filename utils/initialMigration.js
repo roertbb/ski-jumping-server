@@ -1,14 +1,18 @@
 const fs = require('fs');
 const { sequelize } = require('../db');
 
-const Team = require('../models/Team');
-const Person = require('../models/Person');
-const SkiJumper = require('../models/SkiJumper');
-const SkiJumpingHill = require('../models/SkiJumpingHill');
-const Competition = require('../models/Competition');
-const IndividualCompetition = require('../models/IndividualCompetition');
-const TeamCompetition = require('../models/TeamCompetition');
-const Tournament = require('../models/Tournament');
+const {
+  models: {
+    Team,
+    Person,
+    SkiJumper,
+    SkiJumpingHill,
+    Competition,
+    IndividualCompetition,
+    TeamCompetition,
+    Tournament
+  }
+} = require('../db');
 
 const {
   files,

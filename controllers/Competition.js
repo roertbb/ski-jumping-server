@@ -1,6 +1,6 @@
-const Competition = require('../models/Competition');
-const SkiJumpingHill = require('../models/SkiJumpingHill');
-const IndividualCompetition = require('../models/IndividualCompetition');
+const {
+  models: { SkiJumpingHill, Competition, IndividualCompetition }
+} = require('../db');
 const { flatten } = require('../utils/flatten');
 const { sequelize } = require('../db');
 

@@ -1,5 +1,6 @@
-const Result = require('../models/Result');
-const Team = require('../models/Team');
+const {
+  models: { Team, Result }
+} = require('../db');
 
 exports.getResults = async (req, res) => {
   const { competition_id } = req.query;

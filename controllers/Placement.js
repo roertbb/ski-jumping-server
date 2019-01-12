@@ -1,6 +1,6 @@
-const Placement = require('../models/Placement');
-const SeriesResult = require('../models/SeriesResult');
-const Person = require('../models/Person');
+const {
+  models: { Placement, SeriesResult, Person }
+} = require('../db');
 const { flatten } = require('../utils/flatten');
 const { Op } = require('sequelize');
 

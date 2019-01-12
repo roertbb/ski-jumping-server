@@ -1,4 +1,6 @@
-const SeriesResult = require('../models/SeriesResult');
+const {
+  models: { SeriesResult }
+} = require('../db');
 const { Op } = require('sequelize');
 
 const relationData = {
