@@ -58,19 +58,19 @@ exports.getCoach = async (req, res) => {
     const coach = await Coach.findById(id, {
       include: {
         model: Person,
-        raw: true,
-        required: true,
-        nested: false
+        include: {
+          model: Team
+        }
       },
-      raw: true
+      raw: true,
+      required: true,
+      nested: false
     });
     const parsedCoach = deletePrefixesSingleEntry(coach);
-    const team = await Team.findById(parsedCoach.team_id, { raw: true });
 
     res.status(200).json({
       status: 'success',
       coach: {
-        ...team,
         ...parsedCoach
       }
     });

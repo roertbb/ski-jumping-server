@@ -44,6 +44,11 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'restrict'
     });
 
+    SkiJumper.hasMany(models.Placement, {
+      foreignKey: 'person_id',
+      allowNull: false
+    });
+
     SkiJumper.belongsToMany(models.Competition, {
       through: {
         model: models.Placement,

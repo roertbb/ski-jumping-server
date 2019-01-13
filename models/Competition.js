@@ -34,6 +34,21 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'restrict',
       onUpdate: 'restrict'
     });
+
+    Competition.hasMany(models.Placement, {
+      foreignKey: 'competition_id',
+      allowNull: false
+    });
+
+    Competition.hasOne(models.IndividualCompetition, {
+      foreignKey: 'competition_id',
+      allowNull: true
+    });
+
+    Competition.hasOne(models.TeamCompetition, {
+      foreignKey: 'competition_id',
+      allowNull: true
+    });
   };
 
   return Competition;

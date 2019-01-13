@@ -1,5 +1,5 @@
 const {
-  models: { Placement, SeriesResult, Person }
+  models: { Placement, SeriesResult, SkiJumper, Person }
 } = require('../db');
 const { flatten } = require('../utils/flatten');
 const { Op } = require('sequelize');
@@ -51,7 +51,7 @@ exports.createPlacement = async (req, res) => {
       where: { competition_id, person_id },
       include: [
         {
-          model: Person,
+          model: SkiJumper,
           nested: false,
           required: true
         }
@@ -79,7 +79,10 @@ exports.getPlacement = async (req, res) => {
       where: { competition_id: req.query.competition_id },
       include: [
         {
-          model: Person,
+          model: SkiJumper,
+          include: {
+            model: Person
+          },
           nested: false,
           required: true
         }

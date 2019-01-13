@@ -22,6 +22,20 @@ module.exports = (sequelize, DataTypes) => {
     Placement.hasOne(models.Person, {
       foreignKey: 'person_id'
     });
+
+    Placement.belongsTo(models.SkiJumper, {
+      foreignKey: 'person_id',
+      constraints: true,
+      allowNull: false,
+      onDelete: 'restrict',
+      onUpdate: 'restrict'
+    });
+
+    Placement.hasOne(models.Competition, {
+      foreignKey: 'competition_id',
+      constraints: true,
+      allowNull: false
+    });
   };
 
   return Placement;
