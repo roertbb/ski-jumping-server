@@ -1,42 +1,42 @@
-const Competition = require('./Competition');
-const SkiJumper = require('./SkiJumper');
-const Person = require('./Person');
 const Sequelize = require('sequelize');
-const { sequelize } = require('../db');
 
-const Placement = sequelize.define('placement', {
-  person_id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true
-  },
-  competition_id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true
-  },
-  place: {
-    type: Sequelize.INTEGER(2)
-  },
-  points: {
-    type: Sequelize.INTEGER(3)
-  }
-});
+module.exports = (sequelize, DataTypes) => {
+  const Placement = sequelize.define('placement', {
+    person_id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true
+    },
+    competition_id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true
+    },
+    place: {
+      type: Sequelize.INTEGER(2)
+    },
+    points: {
+      type: Sequelize.INTEGER(3)
+    }
+  });
 
-Placement.hasOne(Person, {
-  foreignKey: 'person_id'
-});
+  Placement.associate = models => {
+    Placement.hasOne(models.Person, {
+      foreignKey: 'person_id'
+    });
 
-SkiJumper.belongsToMany(Competition, {
-  through: {
-    model: Placement,
-    unique: false,
-    as: 'Placement'
-  },
-  primaryKey: true,
-  foreignKey: 'person_id',
-  otherKey: 'competition_id',
-  constraints: true,
-  onDelete: 'restrict',
-  onUpdate: 'restrict'
-});
+    Placement.belongsTo(models.SkiJumper, {
+      foreignKey: 'person_id',
+      constraints: true,
+      allowNull: false,
+      onDelete: 'restrict',
+      onUpdate: 'restrict'
+    });
 
-module.exports = Placement;
+    Placement.hasOne(models.Competition, {
+      foreignKey: 'competition_id',
+      constraints: true,
+      allowNull: false
+    });
+  };
+
+  return Placement;
+};

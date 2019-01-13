@@ -1,23 +1,45 @@
-const Competition = require('../models/Competition');
-const IndividualCompetition = require('../models/IndividualCompetition');
-const SkiJumpingHill = require('../models/SkiJumpingHill');
+const {
+  models: { SkiJumpingHill, Competition, IndividualCompetition }
+} = require('../db');
 const { flatten } = require('../utils/flatten');
 const { sequelize } = require('../db');
 
 exports.getCompetition = async (req, res) => {
   try {
     const result = await Competition.findAll({
+      include: [
+        {
+          model: SkiJumpingHill,
+          nested: false,
+          required: true
+        }
+      ],
+      raw: true
+    });
+
+    const ind = await IndividualCompetition.findAll({
       include: {
-        model: SkiJumpingHill,
-        nested: false,
-        required: true
+        model: Competition,
+        include: {
+          model: SkiJumpingHill
+        }
       },
       raw: true
+    });
+    const parsedInd = ind.map(indComp => flatten(indComp));
+
+    result.forEach(res => {
+      if (
+        parsedInd.filter(r => r.competition_id === res.competition_id)
+          .length === 0
+      ) {
+        parsedInd.push(flatten(res));
+      }
     });
 
     res.status(200).json({
       status: 'success',
-      results: result.map(res => flatten(res))
+      results: parsedInd
     });
   } catch (error) {
     console.error(error);

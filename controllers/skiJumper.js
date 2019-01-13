@@ -1,9 +1,20 @@
-const Person = require('../models/Person');
-const SkiJumper = require('../models/SkiJumper');
-const Team = require('../models/Team');
+const {
+  models: {
+    Team,
+    Person,
+    SkiJumper,
+    Placement,
+    Competition,
+    SkiJumpingHill,
+    IndividualCompetition
+  }
+} = require('../db');
 const { Op } = require('sequelize');
 const { sequelize } = require('../db');
-const { deletePrefixesSingleEntry } = require('../utils/deletePrefixes');
+const {
+  deletePrefixesSingleEntryToObj,
+  deletePrefixesToObj
+} = require('../utils/deletePrefixes');
 
 const relationData = {
   create: {
@@ -89,23 +100,31 @@ exports.getSkiJumper = async (req, res) => {
 
   try {
     const skiJumper = await SkiJumper.findById(id, {
-      include: {
-        model: Person,
-        raw: true,
-        required: true,
-        nested: false
-      },
+      include: [
+        {
+          model: Person,
+          include: {
+            model: Team
+          },
+          raw: true,
+          required: true,
+          nested: false
+        }
+      ],
       raw: true
     });
-    const parsedSkiJumper = deletePrefixesSingleEntry(skiJumper);
-    const team = await Team.findById(parsedSkiJumper.team_id, { raw: true });
+
+    // console.log(skiJumper);
+
+    const parsedSkiJumper = deletePrefixesSingleEntryToObj(skiJumper);
     const bmiResp = await sequelize.query(`select calcBMI(${id})`);
     const bmi = Object.values(bmiResp[0][0])[0];
+
+    console.log({ parsedSkiJumper });
 
     res.status(200).json({
       status: 'success',
       skiJumper: {
-        ...team,
         ...parsedSkiJumper,
         bmi
       }

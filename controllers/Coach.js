@@ -1,6 +1,6 @@
-const Person = require('../models/Person');
-const Coach = require('../models/Coach');
-const Team = require('../models/Team');
+const {
+  models: { Team, Person, Coach }
+} = require('../db');
 const { Op } = require('sequelize');
 const { deletePrefixesSingleEntry } = require('../utils/deletePrefixes');
 
@@ -58,19 +58,19 @@ exports.getCoach = async (req, res) => {
     const coach = await Coach.findById(id, {
       include: {
         model: Person,
-        raw: true,
-        required: true,
-        nested: false
+        include: {
+          model: Team
+        }
       },
-      raw: true
+      raw: true,
+      required: true,
+      nested: false
     });
     const parsedCoach = deletePrefixesSingleEntry(coach);
-    const team = await Team.findById(parsedCoach.team_id, { raw: true });
 
     res.status(200).json({
       status: 'success',
       coach: {
-        ...team,
         ...parsedCoach
       }
     });

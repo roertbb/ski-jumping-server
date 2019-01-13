@@ -1,7 +1,6 @@
-const Team = require('../models/Team');
-const Person = require('../models/Person');
-const SkiJumper = require('../models/SkiJumper');
-const Coach = require('../models/Coach');
+const {
+  models: { Team, Person, SkiJumper, Coach }
+} = require('../db');
 const { Op } = require('sequelize');
 const { deletePrefixes } = require('../utils/deletePrefixes');
 

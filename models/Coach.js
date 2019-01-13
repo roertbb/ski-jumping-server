@@ -1,26 +1,28 @@
-const Person = require('./Person');
 const Sequelize = require('sequelize');
-const { sequelize } = require('../db');
 
-const Coach = sequelize.define('coach', {
-  person_id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    primaryKey: true
-  },
-  nationality: {
-    type: Sequelize.STRING(30),
-    allowNull: false
-  }
-});
+module.exports = (sequelize, DataTypes) => {
+  const Coach = sequelize.define('coach', {
+    person_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    nationality: {
+      type: Sequelize.STRING(30),
+      allowNull: false
+    }
+  });
 
-Coach.belongsTo(Person, {
-  foreignKey: 'person_id',
-  constraints: true,
-  primaryKey: true,
-  allowNull: false,
-  onDelete: 'restrict',
-  onUpdate: 'restrict'
-});
+  Coach.associate = models => {
+    models.Coach.belongsTo(models.Person, {
+      foreignKey: 'person_id',
+      constraints: true,
+      primaryKey: true,
+      allowNull: false,
+      onDelete: 'restrict',
+      onUpdate: 'restrict'
+    });
+  };
 
-module.exports = Coach;
+  return Coach;
+};
